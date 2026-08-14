@@ -18,19 +18,17 @@ const Theme = () => {
   };
 
   return (
-    <div className="cursor-pointer">
+    <button
+      onClick={handleThemeToggle}
+      className="w-9 h-9 rounded-xl flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200 cursor-pointer border border-neutral-200 dark:border-neutral-700"
+      aria-label="Toggle theme"
+    >
       {theme === "dark" ? (
-        <MdSunny
-          onClick={handleThemeToggle}
-          className="text-3xl font-extrabold"
-        />
+        <MdSunny className="text-lg text-amber-400" />
       ) : (
-        <IoIosMoon
-          onClick={handleThemeToggle}
-          className="text-3xl font-extrabold"
-        />
+        <IoIosMoon className="text-lg text-indigo-600" />
       )}
-    </div>
+    </button>
   );
 };
 

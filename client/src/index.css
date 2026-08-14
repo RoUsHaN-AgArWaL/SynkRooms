@@ -1,14 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ─── Custom Fonts ─────────────────────────────────────────────────────────── */
 
 .font-bricolage-grotesque {
   font-family: "Bricolage Grotesque", serif;
@@ -16,7 +23,10 @@
 
 .font-courier {
   font-family: "Courier New", monospace;
+  letter-spacing: 0.05em;
 }
+
+/* ─── Scrollbar Utilities ──────────────────────────────────────────────────── */
 
 @layer utilities {
   /* Chrome, Safari and Opera */
@@ -30,7 +40,22 @@
   }
 }
 
-:root:-webkit-scrollbar {
+/* Thin subtle scrollbar for chat area */
+.chat-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 140, 0.2);
+  border-radius: 99px;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 120, 140, 0.4);
+}
+
+:root::-webkit-scrollbar {
   /* Chrome, Safari and Opera */
   display: none;
 }
@@ -38,4 +63,143 @@
 :root {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+/* ─── Selection ────────────────────────────────────────────────────────────── */
+
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: white;
+}
+
+/* ─── Gradient text utility ────────────────────────────────────────────────── */
+
+.gradient-text {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/*  CHAT PAGE — Premium Styles                                               */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Chat background subtle pattern ────────────────────────────────────────── */
+
+.chat-page {
+  --chat-bg-dots: rgba(0, 0, 0, 0.02);
+}
+
+.dark .chat-page {
+  --chat-bg-dots: rgba(255, 255, 255, 0.015);
+}
+
+/* ── Message entrance animation ────────────────────────────────────────────── */
+
+.chat-msg-enter {
+  animation: chatMsgEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes chatMsgEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Chat bubble hover micro-interaction ───────────────────────────────────── */
+
+.chat-bubble {
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s ease;
+}
+
+.chat-bubble:hover {
+  transform: translateY(-1px);
+}
+
+/* ── Composer glass input ──────────────────────────────────────────────────── */
+
+.composer-input-glass {
+  background: rgba(245, 245, 245, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    inset 0 1px 2px rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(8px);
+}
+
+.dark .composer-input-glass {
+  background: rgba(38, 38, 38, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.composer-input-glass:focus-within {
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.dark .composer-input-glass:focus-within {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Composer action buttons ───────────────────────────────────────────────── */
+
+.composer-action-btn {
+  position: relative;
+}
+
+.composer-action-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  opacity: 0;
+  background: currentColor;
+  transition: opacity 0.15s ease;
+}
+
+.composer-action-btn:hover::after {
+  opacity: 0.06;
+}
+
+.dark .composer-action-btn:hover::after {
+  opacity: 0.08;
+}
+
+/* ── Send button pulse ─────────────────────────────────────────────────────── */
+
+.send-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.send-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.send-btn:hover::before {
+  opacity: 1;
 }

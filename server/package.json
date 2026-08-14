@@ -18,7 +18,11 @@
     "express": "^4.21.2",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^2.2.0",
     "typescript": "^5.7.2",
     "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/multer": "^2.2.0"
   }
 }

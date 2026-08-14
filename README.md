@@ -1,12 +1,12 @@
-# Chattr
+# SynkRooms
 
-**Chat Without a Footprint** 🌐
+**Private Rooms. Zero History.** 🌐
 
-Chattr is an anonymous chat application that enables secure, temporary, and private conversations between two users. With no chat history saved anywhere and a seamless experience, Chattr ensures your conversations leave no digital footprint. 🛡️💬
+SynkRooms is an anonymous chat application that enables secure, temporary, and private conversations between two users. With no chat history saved anywhere and a seamless experience, SynkRooms ensures your conversations leave no digital footprint. 🛡️💬
 
 <br>
 
-**Chattr is live! Visit [Chattr](https://chattr-orpin.vercel.app/) to start chatting anonymously now. 🚀**
+**SynkRooms is live! Visit [SynkRooms](https://chattr-orpin.vercel.app/) to start chatting anonymously now. 🚀**
 
 ---
 
