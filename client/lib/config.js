@@ -1,6 +1,8 @@
 // "use strict";
 // Object.defineProperty(exports, "__esModule", { value: true });
-// exports.BACKEND_URL = void 0;
-// export const BACKEND_URL = "wss://chattr-0rux.onrender.com";
-export const BACKEND_URL = "wss://synkrooms-api.vercel.app/";
-// exports.BACKEND_URL = "ws://localhost:3000/";
+const configuredWebSocketUrl = import.meta.env.VITE_WS_URL?.trim();
+export const BACKEND_URL =
+  configuredWebSocketUrl ||
+  (typeof window !== "undefined"
+    ? `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/api`
+    : "ws://localhost:3000");

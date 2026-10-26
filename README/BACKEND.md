@@ -2,6 +2,10 @@
 
 ## Architecture
 
+> [`api/index.ts`](../api/index.ts) exports this server as a Vercel Node.js
+> Function. The WebSocket endpoint is `/api`; local development still uses the
+> standalone `server` process.
+
 The entire backend is a **single file** (`server/src/index.ts`, 79 lines) that combines:
 
 1. An **Express HTTP server** (used solely for a health check endpoint)

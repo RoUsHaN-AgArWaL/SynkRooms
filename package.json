@@ -1,0 +1,16 @@
+{
+  "name": "synkrooms",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix client run build",
+    "build:server": "npm --prefix server run build",
+    "dev": "npm --prefix client run dev"
+  },
+  "dependencies": {
+    "@vercel/blob": "^1.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "multer": "^2.2.0",
+    "ws": "^8.18.0"
+  }
+}
