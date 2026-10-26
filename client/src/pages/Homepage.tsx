@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { WordRotate } from "../components/WordFlip";
 import Header from "../components/Header";
-import Underline from "../components/Underline";
 import Footer from "../components/Footer";
 import { showToast } from "../components/Toast";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView } from "framer-motion";
@@ -22,8 +20,6 @@ import {
   HiOutlineDocumentText,
   HiOutlineUserCircle,
   HiOutlineFingerPrint,
-  HiOutlineSparkles,
-  HiOutlineChatBubbleLeftRight,
   HiOutlineBolt,
   HiOutlineServer,
 } from "react-icons/hi2";
@@ -433,7 +429,7 @@ const Homepage = () => {
                   transition={{ duration: 0.7, delay: 0.6 }}
                   className="flex flex-wrap justify-center gap-3 mt-16"
                 >
-                  {["No Login", "Anonymous", "Encrypted", "Temporary", "Zero History"].map((tag, i) => (
+                  {["No Login", "Anonymous", "Encrypted", "Temporary", "Zero History"].map((tag) => (
                     <span
                       key={tag}
                       className="px-4 py-1.5 rounded-full text-xs font-medium text-neutral-400 border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm"
