@@ -51,13 +51,13 @@ const Footer = () => {
               by
             </span>
             <a
-              href="https://github.com/RoUsHaN-AgArWaL"
-              className="font-semibold text-neutral-600 dark:text-neutral-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              RoUsHaN AgArWaL
-            </a>
+                href="https://github.com/RoUsHaN-AgArWaL"
+                className="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors duration-200"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                RoUsHaN AgArWaL
+              </a>
             <div className="flex items-center gap-1.5 ml-1">
               <a
                 href="https://github.com/RoUsHaN-AgArWaL"
