@@ -18,7 +18,7 @@ const Header = () => {
                     className="w-full h-full object-cover"
                   />
         </div>
-        <span className="font-extrabold font-bricolage-grotesque text-xl sm:text-2xl tracking-tight">
+       <span className="font-['Audiowide'] text-lg sm:text-xl tracking-[0.18em] uppercase">
           SynkRooms
         </span>
       </button>
