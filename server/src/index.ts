@@ -6,7 +6,6 @@ import crypto from "crypto";
 import multer from "multer";
 import fs from "fs";
 import path from "path";
-import { del, put } from "@vercel/blob";
 
 const app = express();
 app.use(cors());
@@ -14,7 +13,6 @@ app.use(cors());
 // Configuration
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 MB
 const UPLOADS_DIR = path.join(__dirname, "../uploads");
-const IS_VERCEL = Boolean(process.env.VERCEL);
 
 // Set up uploads directory
 if (!fs.existsSync(UPLOADS_DIR)) {
@@ -136,7 +134,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage: IS_VERCEL ? multer.memoryStorage() : storage,
+  storage: storage,
   limits: {
     fileSize: MAX_FILE_SIZE,
   },
@@ -156,19 +154,8 @@ const upload = multer({
   },
 });
 
-async function deleteStoredFile(file: string): Promise<void> {
-  if (file.startsWith("http")) {
-    await del(file);
-    return;
-  }
-
-  await new Promise<void>((resolve) => {
-    fs.unlink(path.join(UPLOADS_DIR, file), () => resolve());
-  });
-}
-
 app.post("/upload", (req, res) => {
-  upload.any()(req, res, async (err) => {
+  upload.any()(req, res, (err) => {
     if (err) {
       res.status(400).json({ error: err.message || "File upload error" });
       return;
@@ -183,7 +170,7 @@ app.post("/upload", (req, res) => {
 
     const { roomCode } = req.body;
     if (!roomCode) {
-      if (file.path) fs.unlink(file.path, () => { });
+      fs.unlink(file.path, () => { });
       res.status(400).json({ error: "Room code required" });
       return;
     }
@@ -192,7 +179,7 @@ app.post("/upload", (req, res) => {
     const room = rooms.get(code);
 
     if (!room || room.expiresAt <= Date.now()) {
-      if (file.path) fs.unlink(file.path, () => { });
+      fs.unlink(file.path, () => { });
       res.status(404).json({ error: "Room not found or expired" });
       return;
     }
@@ -206,21 +193,15 @@ app.post("/upload", (req, res) => {
     const size = file.size;
 
     const id = crypto.randomUUID();
-    const filename = file.filename || `${id}${ext}`;
-    const url = IS_VERCEL
-      ? (await put(`synkrooms/${id}${ext}`, file.buffer, {
-        access: "public",
-        addRandomSuffix: false,
-      })).url
-      : `/uploads/${filename}`;
+    const url = `/uploads/${file.filename}`;
 
     // Add to room's mediaFiles for cleanup
-    room.mediaFiles.push(IS_VERCEL ? url : filename);
+    room.mediaFiles.push(file.filename);
 
     res.json({
       id,
       url,
-      filename,
+      filename: file.filename,
       originalName,
       extension: ext.substring(1), // Remove the dot
       size,
@@ -250,11 +231,6 @@ app.get("/view-once/:messageId/:token", (req, res) => {
   const recipientState = Object.values(record.recipientViews).find((state) => state.token === token);
   if (!recipientState || !recipientState.opened || recipientState.deleted || !record.mediaFilename) {
     res.status(404).send("Not found");
-    return;
-  }
-
-  if (record.mediaFilename.startsWith("http")) {
-    res.redirect(record.mediaFilename);
     return;
   }
 
@@ -591,8 +567,11 @@ function maybeFinalizeViewOnceRecord(messageId: string) {
   }
 
   if (record.mediaFilename) {
-    void deleteStoredFile(record.mediaFilename).catch((error) => {
-      console.error("Error deleting view-once file", record.mediaFilename, error);
+    const mediaPath = path.join(UPLOADS_DIR, record.mediaFilename);
+    fs.unlink(mediaPath, (err) => {
+      if (err && (err as NodeJS.ErrnoException).code !== "ENOENT") {
+        console.error("Error deleting view-once file", record.mediaFilename, err);
+      }
     });
 
     const room = rooms.get(record.roomCode);
@@ -649,8 +628,11 @@ function scheduleRecipientViewOnceDeletion(messageId: string, userId: string) {
 
 function deleteSelfDestructMedia(record: SelfDestructMessageRecord) {
   if (record.mediaFilename) {
-    void deleteStoredFile(record.mediaFilename).catch((error) => {
-      console.error("Error deleting self-destruct file", record.mediaFilename, error);
+    const mediaPath = path.join(UPLOADS_DIR, record.mediaFilename);
+    fs.unlink(mediaPath, (err) => {
+      if (err && (err as NodeJS.ErrnoException).code !== "ENOENT") {
+        console.error("Error deleting self-destruct file", record.mediaFilename, err);
+      }
     });
 
     const room = rooms.get(record.roomCode);
@@ -755,8 +737,8 @@ function cleanupExpiredRooms() {
 
       // delete media files
       room.mediaFiles.forEach((file) => {
-        void deleteStoredFile(file).catch((error) => {
-          console.error("Error deleting file", file, error);
+        fs.unlink(path.join(UPLOADS_DIR, file), (err) => {
+          if (err) console.error("Error deleting file", file, err);
         });
       });
 
@@ -1264,8 +1246,8 @@ ws.on("connection", function connection(socket: WebSocket) {
                 fileSize: typeof enrichedMessage.fileSize === "number" ? enrichedMessage.fileSize : undefined,
                 fileExtension: typeof enrichedMessage.fileExtension === "string" ? enrichedMessage.fileExtension : undefined,
                 mediaFilename:
-                  typeof enrichedMessage.mediaUrl === "string"
-                    ? enrichedMessage.mediaUrl.replace(/^\/uploads\//, "")
+                  typeof enrichedMessage.mediaUrl === "string" && enrichedMessage.mediaUrl.startsWith("/uploads/")
+                    ? path.basename(enrichedMessage.mediaUrl)
                     : undefined,
                 recipientViews,
               };
@@ -1278,8 +1260,8 @@ ws.on("connection", function connection(socket: WebSocket) {
                 roomCode: currentUserRoom,
                 deleteAfterMs: deleteAfter * 1000,
                 mediaFilename:
-                  typeof enrichedMessage.mediaUrl === "string"
-                    ? enrichedMessage.mediaUrl.replace(/^\/uploads\//, "")
+                  typeof enrichedMessage.mediaUrl === "string" && enrichedMessage.mediaUrl.startsWith("/uploads/")
+                    ? path.basename(enrichedMessage.mediaUrl)
                     : undefined,
               };
 
@@ -1616,8 +1598,8 @@ ws.on("connection", function connection(socket: WebSocket) {
       });
 
       room.mediaFiles.forEach((file) => {
-        void deleteStoredFile(file).catch((error) => {
-          console.error("Error deleting file", file, error);
+        fs.unlink(path.join(UPLOADS_DIR, file), (err) => {
+          if (err) console.error("Error deleting file", file, err);
         });
       });
 
@@ -1715,11 +1697,7 @@ ws.on("connection", function connection(socket: WebSocket) {
   });
 });
 
-export default server;
-
-if (!process.env.VERCEL) {
-  const PORT = process.env.PORT || 3000;
-  server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-}
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

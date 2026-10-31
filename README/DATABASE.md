@@ -2,12 +2,6 @@
 
 ## Overview
 
-For Vercel, this document is also a deployment warning: Function instances do
-not share this in-memory state. Upstash Redis variables are documented in
-[`server/.env.example`](../server/.env.example), but the Redis state/pub/sub
-adapter is not enabled by this migration. Do not scale the WebSocket Function
-horizontally until that adapter is implemented.
-
 **Chattr has NO database.**
 
 This is a deliberate design decision. The application's core principle is "Chat Without a Footprint" — no messages, user data, or session information is ever persisted to any storage system.

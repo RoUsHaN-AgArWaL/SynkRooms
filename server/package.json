@@ -4,7 +4,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -b",
     "dev": "tsc -b && node dist/index.js"
   },
   "keywords": [],
@@ -15,7 +14,6 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/ws": "^8.5.13",
-    "@vercel/blob": "^1.1.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "http": "^0.0.1-security",

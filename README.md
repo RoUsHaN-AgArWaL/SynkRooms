@@ -291,6 +291,7 @@ Never commit real secrets.
 Example:
 
 ```env
+VITE_API_URL=http://localhost:3000
 VITE_WS_URL=ws://localhost:3000
 ```
 
@@ -300,7 +301,7 @@ Use your actual production endpoints when deploying.
 
 # ▶️ Run Locally
 
-### Start Server (local development)
+### Start Server
 
 ```bash
 cd server
@@ -317,39 +318,6 @@ npm run dev
 Then open the local frontend URL shown by Vite.
 
 ---
-
-# ▲ Vercel deployment
-
-The repository now has a root Vercel configuration. Set the Vercel project
-root to the repository root and deploy with the defaults from
-[`vercel.json`](./vercel.json):
-
-* `client/dist` is built and served as the Vite frontend.
-* [`api/index.ts`](./api/index.ts) exports the Node.js WebSocket/HTTP Function.
-* The browser uses the same-origin `/api` WebSocket endpoint by default. Set
-  `VITE_WS_URL` only when using a separate endpoint.
-* Enable Fluid Compute for existing Vercel projects. WebSocket connections are
-  bounded by the Function maximum duration, so clients must reconnect.
-* Create a Vercel Blob store and expose `BLOB_READ_WRITE_TOKEN`. Uploads use
-  Blob URLs on Vercel and the local `server/uploads` directory only in local
-  development.
-
-### Shared state requirement
-
-Vercel can pin a WebSocket connection to one Function instance, but it does not
-make module-level memory shared between instances. The current room, message,
-presence, rate-limit, and timer maps in
-[`server/src/index.ts`](./server/src/index.ts) therefore remain
-single-instance state. For a reliable multi-instance deployment, provision
-Upstash Redis and set `UPSTASH_REDIS_REST_URL` and
-`UPSTASH_REDIS_REST_TOKEN` from [`server/.env.example`](./server/.env.example),
-then complete the Redis state and pub/sub adapter before scaling beyond one
-Function instance. This is intentionally documented rather than hidden:
-silently presenting the current maps as durable or cross-instance state would
-lose rooms and messages.
-
-Vercel does not create these external resources automatically, and this change
-does not deploy anything or create paid resources.
 
 # 🔐 Security Philosophy
 
