@@ -29,13 +29,13 @@ const Footer = () => {
             </div>
             <div className="flex items-center gap-2">
               <a
-                href="https://github.com/RoUsHaN-AgArWaL"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[12px] font-semibold text-neutral-700 dark:text-neutral-300 hover:text-[#7C3AED] dark:hover:text-[#A855F7] transition-colors duration-200"
-              >
-                SynkRooms
-              </a>
+  href="https://github.com/RoUsHaN-AgArWaL"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-[12px] font-semibold text-neutral-900 dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors duration-200"
+>
+  SynkRooms
+</a>
               <span className="hidden sm:inline text-neutral-300 dark:text-neutral-700">·</span>
              <span className="hidden sm:inline text-[12px] text-[#A67C52] dark:text-[#D6B88C]">
                   Anonymous chat rooms with zero footprint.
