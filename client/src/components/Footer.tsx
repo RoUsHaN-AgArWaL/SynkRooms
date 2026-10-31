@@ -45,7 +45,7 @@ const Footer = () => {
 
           {/* Center: Credit + Socials */}
           <div className="flex items-center gap-3 text-[12px] text-neutral-400 dark:text-neutral-600">
-           <span className="flex items-center gap-1 text-[#A67C52] dark:text-[#D6B88C]">
+           <span className="flex items-center gap-1 text-[#A67C52] white:text-neutral-600">
                     Crafted with
                     <span className="text-[#D6B88C] text-[10px]">❤️</span>
                     by
