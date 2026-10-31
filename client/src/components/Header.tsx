@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Theme from "./theme";
+import logo from "./extra1-large.jpeg";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Header = () => {
         <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#A855F7] flex items-center justify-center shadow-lg shadow-[#7C3AED]/20 group-hover:shadow-[#A855F7]/30 transition-shadow duration-300">
         
           <img
-                    src="/extra1-large.jpeg"
+                    src={logo}
                     alt="SynkRooms Logo"
                     className="w-full h-full object-cover"
                   />
