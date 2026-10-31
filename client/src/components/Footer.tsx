@@ -10,11 +10,22 @@ const Footer = () => {
           {/* Left: Brand + Description */}
           <div className="flex items-center gap-3">
             <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#7C3AED] to-[#A855F7] flex items-center justify-center shadow-sm shadow-[#7C3AED]/20">
-             <img
-                    src="/extra1.large.jpeg"
-                    alt="SynkRooms Logo"
-                    className="w-full h-full object-cover"
-                  />
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="7" cy="7" r="2" />
+                <circle cx="17" cy="7" r="2" />
+                <circle cx="12" cy="16" r="2" />
+                <path d="M8.5 7L11.5 11.5L15.5 7" />
+                <path d="M12 9.5V14" />
+              </svg>
             </div>
             <div className="flex items-center gap-2">
               <a
