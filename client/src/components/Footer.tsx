@@ -52,7 +52,7 @@ const Footer = () => {
             </span>
             <a
                 href="https://github.com/RoUsHaN-AgArWaL"
-                className="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors duration-200"
+                className="font-semibold text-[#A67C52] dark:text-[#D6B88C] hover:text-[#8B6239] dark:hover:text-[#E8CCA5] transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
               >
