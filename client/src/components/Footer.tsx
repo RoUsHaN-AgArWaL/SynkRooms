@@ -37,19 +37,19 @@ const Footer = () => {
                 SynkRooms
               </a>
               <span className="hidden sm:inline text-neutral-300 dark:text-neutral-700">·</span>
-              <span className="hidden sm:inline text-[12px] text-neutral-400 dark:text-neutral-600">
-                Anonymous chat rooms with zero footprint.
-              </span>
+             <span className="hidden sm:inline text-[12px] text-[#A67C52] dark:text-[#D6B88C]">
+                  Anonymous chat rooms with zero footprint.
+                </span>
             </div>
           </div>
 
           {/* Center: Credit + Socials */}
           <div className="flex items-center gap-3 text-[12px] text-neutral-400 dark:text-neutral-600">
-            <span className="flex items-center gap-1">
-              Crafted with
-              <span className="text-rose-500 text-[10px]">❤️</span>
-              by
-            </span>
+           <span className="flex items-center gap-1 text-[#A67C52] dark:text-[#D6B88C]">
+                    Crafted with
+                    <span className="text-[#D6B88C] text-[10px]">❤️</span>
+                    by
+                  </span>
             <a
                 href="https://github.com/RoUsHaN-AgArWaL"
                 className="font-semibold text-[#A67C52] dark:text-[#D6B88C] hover:text-[#8B6239] dark:hover:text-[#E8CCA5] transition-colors duration-200"
